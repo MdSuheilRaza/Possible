@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script>
+      // Initialize Firebase
+      const firebaseConfig = {
+  apiKey: "AIzaSyBONh-tTRxyK7xP0xyGfL3fRIY4uRqZlDg",
+  authDomain: "sstchat-e1834.firebaseapp.com",
+  projectId: "sstchat-e1834",
+  storageBucket: "sstchat-e1834.appspot.com",
+  messagingSenderId: "395620786962",
+  appId: "1:395620786962:web:3e23c3e7f7e184e611c9cb",
+  measurementId: "G-QXKD9GE79S"
+};
+
+      firebase.initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <link rel="stylesheet" href="Chat.css">
+  </head>
+  <body>
+    <a href="home.html">Go to home page</a>
+    <br>
+    <br>
+    <div id='messagesDiv'></div>
+    <input type='text' id='nameInput' placeholder='Name'>
+    <input type='text' id='messageInput' placeholder='Message, press enter to submit'>
+    
+    <script>      
+      var myDataRef = firebase.database().ref('chat');
+      $('#messageInput').keypress(function (e) {
+        if (e.keyCode == 13) {
+          var name = $('#nameInput').val();
+          var text = $('#messageInput').val();
+          // myDataRef.push({name: name, text: text});
+          myDataRef.push({
+              name: name,
+              text: text
+          });
+          $('#messageInput').val('');
+        }
+      });
+      myDataRef.on('child_added', function(snapshot) {
+        var message = snapshot.val();
+        displayChatMessage(message.name, message.text);
+      });
+      myDataRef.on('child_removed', function(snapshot) {
+        var deletedPost = snapshot.val();
+        console.log("Chat was removed", deletedPost);
+      });
+      function displayChatMessage(name, text) {
+        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      };
+    </script>
+  </body>
+</html>

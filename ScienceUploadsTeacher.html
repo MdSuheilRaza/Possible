@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploads</title>
+</head>
+<body>
+    <input type="file" onchange="uploadData()" name="Files[]" id="files" multiple>
+    <p>If link dont apear, refresh the page</p>
+    <a href="ScienceChat.html">Go to chat</a>
+    
+   <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAMp6dB2E9cxVrWDRk5o9ZG3v8oj5L0GNM",
+    authDomain: "scienceteacher-e3e40.firebaseapp.com",
+    projectId: "scienceteacher-e3e40",
+    storageBucket: "scienceteacher-e3e40.appspot.com",
+    messagingSenderId: "879952870094",
+    appId: "1:879952870094:web:05feac843df3ed968aee9f"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  let storageRef = firebase.storage().ref('ScienceUploadsTeacher');
+
+  
+
+  function uploadData(){
+    let file = document.getElementById('files').files[0];
+    console.log(file);
+
+    let thisRef = storageRef.child(file.name);
+    thisRef.put(file).then(res=>{
+      console.log("Upload Success");
+      alert(url);
+    }).catch(e=>{
+      console.log("Error "+e);
+    })
+
+    firebase.storage().ref('ScienceUploadsTeacher').child(file.name).getDownloadURL().then(url=>{
+      alert("Copy and Paste the link:- "+url)
+    }).catch(e=>{console.log(e)})
+
+  }
+
+  
+  
+    
+</script>
+</body>
+</html>

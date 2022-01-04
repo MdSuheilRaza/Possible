@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploads</title>
+</head>
+<body>
+    <input type="file" onchange="uploadData()" name="Files[]" id="files" multiple>
+    <p>If link dont apear, refresh the page</p>
+    <a href="MathChat.html">Go to chat</a>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyA8MScVBPmM4_Ed8jo29ASIU3S7J8kPEto",
+    authDomain: "mathteacher-ee5a4.firebaseapp.com",
+    projectId: "mathteacher-ee5a4",
+    storageBucket: "mathteacher-ee5a4.appspot.com",
+    messagingSenderId: "433672796235",
+    appId: "1:433672796235:web:05600e55b8d24338f6b5ce",
+    measurementId: "G-9G5N037QCC"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+ 
+  let storageRef = firebase.storage().ref('MathUploadsTeacher');
+
+  
+
+function uploadData(){
+  let file = document.getElementById('files').files[0];
+  console.log(file);
+
+    let thisRef = storageRef.child(file.name);
+    thisRef.put(file).then(res=>{
+    console.log(file.name);
+    
+  }).catch(e=>{
+    console.log("Error "+e);
+  });
+  firebase.storage().ref('MathUploadsTeacher').child(file.name).getDownloadURL().then(url=>{
+     alert("Copy and Paste the link:- "+url)
+    }).catch(e=>{console.log(e)})
+  
+}
+</script>
+</body>
+</html>

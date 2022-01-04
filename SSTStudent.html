@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploads</title>
+</head>
+<body>
+    <input type="file" onchange="uploadData()" name="Files[]" id="files" multiple>
+    <p>If link dont apear, refresh the page</p>
+    <a href="SSTChat.html">Got to chat</a>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+    <script>
+        const firebaseConfig = {
+    apiKey: "AIzaSyB1AegHm8muMtjbiVV9STa5pKdjGab2VMo",
+    authDomain: "sststudent-a2961.firebaseapp.com",
+    projectId: "sststudent-a2961",
+    storageBucket: "sststudent-a2961.appspot.com",
+    messagingSenderId: "558316427883",
+    appId: "1:558316427883:web:2de7c0d19c392fd4a36f2e",
+    measurementId: "G-HH7YTTL1C1"
+  };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+ 
+ let storageRef = firebase.storage().ref('SSTstudent');
+
+
+
+function uploadData(){
+let file = document.getElementById('files').files[0];
+console.log(file);
+
+ let thisRef = storageRef.child(file.name);
+ thisRef.put(file).then(res=>{
+ console.log(file.name);
+ 
+}).catch(e=>{
+ console.log("Error "+e);
+});
+firebase.storage().ref('SSTstudent').child(file.name).getDownloadURL().then(url=>{
+ alert("Copy and Paste the link:- "+url)
+ }).catch(e=>{console.log(e)})
+
+}
+    </script>
+</body>
+</html>
